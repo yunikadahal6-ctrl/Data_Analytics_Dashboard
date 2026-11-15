@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://127.0.0.1:8000/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" href="./filter_sales_files/dashboard.css">
+    <title>Data Analytics Dashboard</title>
+</head>
+<body>
+    <main>
+        <nav class="site-nav" aria-label="Main navigation">
+            <a href="http://127.0.0.1:8000/" aria-current="page">Dashboard</a>
+            <a href="http://127.0.0.1:8000/sql-practice/">SQL Practice</a>
+        </nav>
+        <h1>Data Analytics Dashboard</h1>
+        <p>Welcome! This sample sales data will help us explore the dashboard step by step.</p>
+
+        
+
+        <section class="upload-card" aria-labelledby="upload-heading">
+            <h2 id="upload-heading">Upload sales from a CSV</h2>
+            <p>Required columns: date, product, region, quantity, unit_price.</p>
+            <form action="http://127.0.0.1:8000/upload/" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="csrfmiddlewaretoken" value="SMxE5qv83xt2mJxoOmQXrAX8SAAxvzq6ely26isugoZUBhpfId4KfoRHDXXA7Qbm">
+                
+                <div class="upload-field">
+                    <label for="id_csv_file">Sales CSV file:</label>
+                    <input type="file" name="csv_file" required="" aria-describedby="id_csv_file_helptext" id="id_csv_file">
+                    <p class="help-text">Use a .csv file with date, product, region, quantity, and unit_price columns. Maximum size: 5 MB.</p>
+                    
+                </div>
+                <button type="submit">Upload CSV</button>
+            </form>
+        </section>
+
+        <section class="filter-card" aria-labelledby="filter-heading">
+            <h2 id="filter-heading">Filter sales</h2>
+            <form class="filter-form" method="get" action="http://127.0.0.1:8000/">
+                <label for="id_product">Product <select name="product" id="id_product">
+  <option value="" selected="">All products</option>
+
+  <option value="Desk Lamp">Desk Lamp</option>
+
+  <option value="Notebook">Notebook</option>
+
+  <option value="Pen Set">Pen Set</option>
+
+</select></label>
+                <label for="id_region">Region <select name="region" id="id_region">
+  <option value="" selected="">All regions</option>
+
+  <option value="East">East</option>
+
+  <option value="North">North</option>
+
+  <option value="South">South</option>
+
+  <option value="West">West</option>
+
+</select></label>
+                <button type="submit">Apply filters</button>
+                <a class="clear-filters" href="http://127.0.0.1:8000/">Clear filters</a>
+            </form>
+            
+        </section>
+
+        <section class="summary-grid" aria-label="Sales summaries">
+            <article class="summary-card">
+                <h2>Total sales revenue</h2>
+                <p class="summary-value">313.95</p>
+            </article>
+            <article class="summary-card">
+                <h2>Total orders</h2>
+                <p class="summary-value">6</p>
+            </article>
+            <article class="summary-card">
+                <h2>Total quantity sold</h2>
+                <p class="summary-value">50</p>
+            </article>
+            <article class="summary-card">
+                <h2>Best-selling product</h2>
+                <p class="summary-value">Notebook</p>
+                <p>27 units sold</p>
+            </article>
+        </section>
+
+        <h2>Sales charts</h2>
+        <section class="chart-grid" aria-label="Sales charts">
+            <article class="chart-card">
+                <h3>Units sold by product</h3>
+                <div class="chart-container">
+                    <canvas id="product-chart" role="img" aria-label="Bar chart of units sold by product" width="577" height="375" style="display: block; box-sizing: border-box; height: 300px; width: 462px;">
+                        Chart of units sold by product.
+                    </canvas>
+                </div>
+            </article>
+            <article class="chart-card">
+                <h3>Units sold by region</h3>
+                <div class="chart-container">
+                    <canvas id="region-chart" role="img" aria-label="Doughnut chart of units sold by region" width="577" height="375" style="display: block; box-sizing: border-box; height: 300px; width: 462px;">
+                        Chart of units sold by region.
+                    </canvas>
+                </div>
+            </article>
+            <article class="chart-card chart-card-wide">
+                <h3>Units sold over time</h3>
+                <div class="chart-container">
+                    <canvas id="time-chart" role="img" aria-label="Line chart of units sold over time" width="1233" height="375" style="display: block; box-sizing: border-box; height: 300px; width: 986.4px;">
+                        Chart of units sold over time.
+                    </canvas>
+                </div>
+            </article>
+        </section>
+
+        <h2>Sales records</h2>
+        <div class="table-wrapper">
+        <table>
+            <caption>Sales records matching the selected filters</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Region</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Unit price</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                    <tr>
+                        <td>Jan. 5, 2026</td>
+                        <td>Notebook</td>
+                        <td>East</td>
+                        <td>12</td>
+                        <td>3.50</td>
+                    </tr>
+                
+                    <tr>
+                        <td>Jan. 8, 2026</td>
+                        <td>Pen Set</td>
+                        <td>West</td>
+                        <td>8</td>
+                        <td>5.25</td>
+                    </tr>
+                
+                    <tr>
+                        <td>Jan. 12, 2026</td>
+                        <td>Desk Lamp</td>
+                        <td>North</td>
+                        <td>3</td>
+                        <td>24.99</td>
+                    </tr>
+                
+                    <tr>
+                        <td>Jan. 18, 2026</td>
+                        <td>Notebook</td>
+                        <td>South</td>
+                        <td>15</td>
+                        <td>3.50</td>
+                    </tr>
+                
+                    <tr>
+                        <td>Jan. 22, 2026</td>
+                        <td>Desk Lamp</td>
+                        <td>East</td>
+                        <td>2</td>
+                        <td>24.99</td>
+                    </tr>
+                
+                    <tr>
+                        <td>Jan. 27, 2026</td>
+                        <td>Pen Set</td>
+                        <td>North</td>
+                        <td>10</td>
+                        <td>5.25</td>
+                    </tr>
+                
+            </tbody>
+        </table>
+        </div>
+    </main>
+    <script id="chart-data" type="application/json">{"products": {"labels": ["Desk Lamp", "Notebook", "Pen Set"], "values": [5, 27, 18]}, "regions": {"labels": ["East", "North", "South", "West"], "values": [14, 13, 15, 8]}, "daily_sales": {"labels": ["2026-01-05", "2026-01-08", "2026-01-12", "2026-01-18", "2026-01-22", "2026-01-27"], "values": [12, 8, 3, 15, 2, 10]}}</script>
+    <script src="./filter_sales_files/chart.js@4"></script>
+    <script src="./filter_sales_files/dashboard_charts.js.download" defer=""></script>
+
+
+</body></html>

@@ -47,6 +47,22 @@ CSV files must include `date`, `product`, `region`, `quantity`, and `unit_price`
 
 ## Screenshots
 
+### Dashboard overview
+
+![Data Analytics Dashboard overview](screenshots/Dashboard.png)
+
+### Sales charts
+
+![Sales analytics charts](screenshots/charts.png)
+
+### CSV import
+
+![CSV sales import interface](screenshots/csv.png)
+
+### Sales filters
+
+![Product and region sales filters](screenshots/filter_sales.png)
+
 Add screenshots here before publishing:
 
 - **Dashboard:** `docs/screenshots/dashboard.png`
