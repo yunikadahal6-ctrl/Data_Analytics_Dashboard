@@ -51,6 +51,10 @@ CSV files must include `date`, `product`, `region`, `quantity`, and `unit_price`
 
 ![Data Analytics Dashboard overview](screenshots/Dashboard.png)
 
+### Chart detail
+
+![Sales chart detail](screenshots/chart.png)
+
 ### Sales charts
 
 ![Sales analytics charts](screenshots/charts.png)
