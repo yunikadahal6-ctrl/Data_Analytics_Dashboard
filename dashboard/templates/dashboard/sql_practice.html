@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/dashboard.css' %}">
+    <title>SQL Practice | Data Analytics Dashboard</title>
+</head>
+<body>
+    <main>
+        <nav class="site-nav" aria-label="Main navigation">
+            <a href="{% url 'dashboard:home' %}">Dashboard</a>
+            <a href="{% url 'dashboard:sql_practice' %}" aria-current="page">SQL Practice</a>
+        </nav>
+        <h1>SQL Practice</h1>
+        <p>Each example runs a read-only SQL query on the sales records currently stored in SQLite.</p>
+
+        {% for example in examples %}
+            <section class="sql-card">
+                <h2>{{ example.title }}</h2>
+                <p>{{ example.explanation }}</p>
+                <pre class="sql-query"><code>{{ example.sql }}</code></pre>
+                <div class="table-wrapper">
+                <table>
+                    <caption>Query result: {{ example.title }}</caption>
+                    <thead>
+                        <tr>
+                            {% for column in example.columns %}
+                                <th scope="col">{{ column }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in example.rows %}
+                            <tr>
+                                {% for value in row %}
+                                    <td>{{ value }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="{{ example.columns|length }}">No matching records.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            </section>
+        {% endfor %}
+    </main>
+</body>
+</html>

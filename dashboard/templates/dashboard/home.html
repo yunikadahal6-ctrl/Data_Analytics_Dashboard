@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/dashboard.css' %}">
+    <title>Data Analytics Dashboard</title>
+</head>
+<body>
+    <main>
+        <nav class="site-nav" aria-label="Main navigation">
+            <a href="{% url 'dashboard:home' %}" aria-current="page">Dashboard</a>
+            <a href="{% url 'dashboard:sql_practice' %}">SQL Practice</a>
+        </nav>
+        <h1>Data Analytics Dashboard</h1>
+        <p>Welcome! This sample sales data will help us explore the dashboard step by step.</p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p class="success-message" role="status">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <section class="upload-card" aria-labelledby="upload-heading">
+            <h2 id="upload-heading">Upload sales from a CSV</h2>
+            <p>Required columns: date, product, region, quantity, unit_price.</p>
+            <form action="{% url 'dashboard:upload_sales' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if upload_form.non_field_errors %}
+                    <div class="error-message" role="alert">{{ upload_form.non_field_errors }}</div>
+                {% endif %}
+                <div class="upload-field">
+                    {{ upload_form.csv_file.label_tag }}
+                    {{ upload_form.csv_file }}
+                    <p class="help-text">{{ upload_form.csv_file.help_text }}</p>
+                    {% if upload_form.csv_file.errors %}
+                        <div class="error-message" role="alert">{{ upload_form.csv_file.errors }}</div>
+                    {% endif %}
+                </div>
+                <button type="submit">Upload CSV</button>
+            </form>
+        </section>
+
+        <section class="filter-card" aria-labelledby="filter-heading">
+            <h2 id="filter-heading">Filter sales</h2>
+            <form class="filter-form" method="get" action="{% url 'dashboard:home' %}">
+                <label for="id_product">{{ filter_form.product.label }} {{ filter_form.product }}</label>
+                <label for="id_region">{{ filter_form.region.label }} {{ filter_form.region }}</label>
+                <button type="submit">Apply filters</button>
+                <a class="clear-filters" href="{% url 'dashboard:home' %}">Clear filters</a>
+            </form>
+            {% if filter_form.errors %}
+                <div class="error-message" role="alert">{{ filter_form.errors }}</div>
+            {% endif %}
+        </section>
+
+        <section class="summary-grid" aria-label="Sales summaries">
+            <article class="summary-card">
+                <h2>Total sales revenue</h2>
+                <p class="summary-value">{{ total_revenue|floatformat:2 }}</p>
+            </article>
+            <article class="summary-card">
+                <h2>Total orders</h2>
+                <p class="summary-value">{{ total_orders }}</p>
+            </article>
+            <article class="summary-card">
+                <h2>Total quantity sold</h2>
+                <p class="summary-value">{{ total_quantity }}</p>
+            </article>
+            <article class="summary-card">
+                <h2>Best-selling product</h2>
+                <p class="summary-value">{{ best_selling_product }}</p>
+                <p>{{ best_selling_quantity }} units sold</p>
+            </article>
+        </section>
+
+        <h2>Sales charts</h2>
+        <section class="chart-grid" aria-label="Sales charts">
+            <article class="chart-card">
+                <h3>Units sold by product</h3>
+                <div class="chart-container">
+                    <canvas id="product-chart" role="img" aria-label="Bar chart of units sold by product">
+                        Chart of units sold by product.
+                    </canvas>
+                </div>
+            </article>
+            <article class="chart-card">
+                <h3>Units sold by region</h3>
+                <div class="chart-container">
+                    <canvas id="region-chart" role="img" aria-label="Doughnut chart of units sold by region">
+                        Chart of units sold by region.
+                    </canvas>
+                </div>
+            </article>
+            <article class="chart-card chart-card-wide">
+                <h3>Units sold over time</h3>
+                <div class="chart-container">
+                    <canvas id="time-chart" role="img" aria-label="Line chart of units sold over time">
+                        Chart of units sold over time.
+                    </canvas>
+                </div>
+            </article>
+        </section>
+
+        <h2>Sales records</h2>
+        <div class="table-wrapper">
+        <table>
+            <caption>Sales records matching the selected filters</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Region</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Unit price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sale in sales %}
+                    <tr>
+                        <td>{{ sale.date }}</td>
+                        <td>{{ sale.product }}</td>
+                        <td>{{ sale.region }}</td>
+                        <td>{{ sale.quantity }}</td>
+                        <td>{{ sale.unit_price }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5">No sales records match the current selection.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </main>
+    {{ chart_data|json_script:"chart-data" }}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+    <script src="{% static 'dashboard/js/dashboard_charts.js' %}" defer></script>
+</body>
+</html>
